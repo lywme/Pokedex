@@ -5,7 +5,6 @@ class Pokedex extends Component{
     constructor(props)
     {
         super(props);
-        this.state={win:true,score1:0,score2:0};
     }
 
     random=(data)=>{
@@ -21,25 +20,6 @@ class Pokedex extends Component{
             newArr.push(dataCpy[ran]);
             dataCpy=[...dataCpy.slice(0,ran),...dataCpy.slice(ran+1)];
         }
-
-        //Determine who wins? the first 4 or the second 4 cards.
-        var score1=0;
-        for(var i=0;i<newArr.length/2;i++)
-        {
-            score1+=newArr[i].base_experience;
-        }
-    
-        console.log("score1="+score1);
-
-        var score2=0;
-        for(var i=newArr.length/2;i<newArr.length;i++)
-        {
-            score2+=newArr[i].base_experience;
-        }
-    
-        console.log("score2="+score2);
-        var win=score1>score2;
-        console.log(win);
 
         return newArr;
     }
@@ -59,10 +39,23 @@ class Pokedex extends Component{
         const lists=data.map((item,index)=><div key={index} className="col-lg-3"><Pokecard key={index} item={item}/></div>);
         let randomData=this.random(data);
         //console.log(randomData);
+        const hand1=randomData.slice(0,randomData.length/2);
+        const hand2=randomData.slice(randomData.length/2);
+        const shuffleLists1=hand1.map((item,index)=><div key={index} className="col-lg-3"><Pokecard key={index} item={item}/></div>);
+        const shuffleLists2=hand2.map((item,index)=><div key={index} className="col-lg-3"><Pokecard key={index} item={item}/></div>);
+        const exp1=hand1.reduce(function(sum,item){
+            return sum+item.base_experience;
+        },0);
 
-        const shuffleLists1=randomData.slice(0,randomData.length/2).map((item,index)=><div key={index} className="col-lg-3"><Pokecard key={index} item={item}/></div>);
-        const shuffleLists2=randomData.slice(randomData.length/2).map((item,index)=><div key={index} className="col-lg-3"><Pokecard key={index} item={item}/></div>);
-        
+        const exp2=hand2.reduce(function(sum,item){
+            return sum+item.base_experience;
+        },0);
+
+        //console.log(exp1);
+        //console.log(exp2);
+
+        const h3style1={margin:'15px',color:'red'};
+        const h3style2={margin:'15px',color:'red'};
 
         return (
             <div>
@@ -71,7 +64,13 @@ class Pokedex extends Component{
                 <br />
                 <div className="container">
                     <div className="row">
+                        {exp1>exp2?h3style1.color='green':null}
+                        <h3 className="col-12" style={h3style1}>{exp1>exp2?'Hand 1 wins':'Hand 1 lose'}</h3>
+                        <h5 className="col-12" style={h3style1}>Total exp is :{exp1}</h5>
                         {shuffleLists1}
+                        {exp2>exp1?h3style2.color='green':null}
+                        <h3 className="col-12" style={h3style2}>{exp2>exp1?'Hand 2 wins':'Hand 2 lose'}</h3>
+                        <h5 className="col-12" style={h3style2}>Total exp is :{exp2}</h5>
                         {shuffleLists2}
                     </div>
                 </div>
