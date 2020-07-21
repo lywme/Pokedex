@@ -54,7 +54,7 @@ class Pokedex extends Component{
         //console.log(exp1);
         //console.log(exp2);
 
-        const h3style1={margin:'15px',color:'red'};
+        const h3style1={margin:'15px',color:'green'};
         const h3style2={margin:'15px',color:'red'};
 
         return (
@@ -64,13 +64,11 @@ class Pokedex extends Component{
                 <br />
                 <div className="container">
                     <div className="row">
-                        {exp1>exp2?h3style1.color='green':null}
-                        <h3 className="col-12" style={h3style1}>{exp1>exp2?'Hand 1 wins':'Hand 1 lose'}</h3>
-                        <h5 className="col-12" style={h3style1}>Total exp is :{exp1}</h5>
+                        <h3 className="col-12" style={exp1>exp2?h3style1:h3style2}>{exp1>exp2?'Hand 1 wins':'Hand 1 lose'}</h3>
+                        <h5 className="col-12" style={exp1>exp2?h3style1:h3style2}>Total exp is :{exp1}</h5>
                         {shuffleLists1}
-                        {exp2>exp1?h3style2.color='green':null}
-                        <h3 className="col-12" style={h3style2}>{exp2>exp1?'Hand 2 wins':'Hand 2 lose'}</h3>
-                        <h5 className="col-12" style={h3style2}>Total exp is :{exp2}</h5>
+                        <h3 className="col-12" style={exp2>exp1?h3style1:h3style2}>{exp2>exp1?'Hand 2 wins':'Hand 2 lose'}</h3>
+                        <h5 className="col-12" style={exp2>exp1?h3style1:h3style2}>Total exp is :{exp2}</h5>
                         {shuffleLists2}
                     </div>
                 </div>
